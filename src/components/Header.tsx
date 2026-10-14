@@ -1,5 +1,5 @@
-import React from 'react';
-import { Volume2, VolumeX, BookOpen, RotateCcw, Home, Spade } from 'lucide-react';
+import React, { useState } from 'react';
+import { Volume2, VolumeX, BookOpen, RotateCcw, Home, Spade, Check } from 'lucide-react';
 import { SoundEffects } from '../utils/audio';
 
 interface HeaderProps {
@@ -8,7 +8,6 @@ interface HeaderProps {
   activeGameTitle?: string;
   soundEnabled: boolean;
   onToggleSound: () => void;
-  onOpenAndroidInstall: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -17,22 +16,39 @@ export const Header: React.FC<HeaderProps> = ({
   activeGameTitle,
   soundEnabled,
   onToggleSound,
-  onOpenAndroidInstall,
 }) => {
+  const [streamCopied, setStreamCopied] = useState(false);
+
+  const handleStreamClick = () => {
+    SoundEffects.playClick();
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      navigator.clipboard.writeText(window.location.href);
+    }
+    setStreamCopied(true);
+    setTimeout(() => setStreamCopied(false), 2500);
+  };
+
   if (currentView === 'scoreboard') {
     return (
       <header className="sticky top-0 z-40 bg-[#d32f2f] text-white shadow-md">
         <div className="max-w-md mx-auto px-4 py-2.5 flex items-center justify-between">
           {/* Stream button */}
           <button
-            onClick={() => {
-              SoundEffects.playClick();
-              alert('Stream / Live Table Screen: Share link copied to clipboard for table spectators!');
-            }}
+            onClick={handleStreamClick}
             className="px-3 py-1 bg-white text-[#d32f2f] hover:bg-red-50 active:scale-95 text-xs font-bold rounded-md shadow-xs flex items-center gap-1.5 transition-all"
+            title="Copy spectator link"
           >
-            <span className="text-[13px]">📶</span>
-            <span>Stream</span>
+            {streamCopied ? (
+              <>
+                <Check className="w-3.5 h-3.5 text-emerald-600" />
+                <span className="text-emerald-700">Copied!</span>
+              </>
+            ) : (
+              <>
+                <span className="text-[13px]">📶</span>
+                <span>Stream</span>
+              </>
+            )}
           </button>
 
           {/* Centered Score Board title */}
@@ -40,17 +56,17 @@ export const Header: React.FC<HeaderProps> = ({
             Score Board
           </h1>
 
-          {/* Right action icons: Install, Info, Home */}
+          {/* Right action icons: Info, Sound, Home */}
           <div className="flex items-center gap-1.5">
             <button
               onClick={() => {
                 SoundEffects.playClick();
-                onOpenAndroidInstall();
+                onToggleSound();
               }}
-              className="p-1 rounded-lg bg-white/10 hover:bg-white/20 active:scale-95 text-white transition-colors text-xs font-bold flex items-center gap-1"
-              title="Install Android App / APK"
+              className="p-1 rounded-lg hover:bg-white/20 active:scale-95 text-white transition-colors"
+              title={soundEnabled ? 'Mute Sound' : 'Enable Sound'}
             >
-              <span>📲</span>
+              {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4 text-red-200" />}
             </button>
             <button
               onClick={() => {
@@ -119,42 +135,32 @@ export const Header: React.FC<HeaderProps> = ({
           )}
         </div>
 
-        <div className="flex items-center gap-1.5">
-          {currentView !== 'callbreak' && (
+        {/* Header Right Action icons */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => {
+              SoundEffects.playClick();
+              onToggleSound();
+            }}
+            className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 active:scale-95 transition-all text-white"
+            title={soundEnabled ? 'Mute Sound' : 'Enable Sound'}
+          >
+            {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4 text-red-200" />}
+          </button>
+
+          {currentView === 'home' && (
             <button
               onClick={() => {
                 SoundEffects.playClick();
-                onNavigate('callbreak');
+                onNavigate('tutorial');
               }}
-              className="px-2 py-1 rounded-md bg-black/25 hover:bg-black/35 text-[11px] font-bold text-white flex items-center gap-1 transition-all"
-              title="Callbreak Calculator"
+              className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 active:scale-95 transition-all text-white flex items-center gap-1 text-xs font-semibold"
+              title="How to Play"
             >
-              <Spade className="w-3.5 h-3.5 text-amber-300" />
-              <span className="hidden xs:inline">Callbreak</span>
+              <BookOpen className="w-4 h-4" />
+              <span className="hidden sm:inline">Guide</span>
             </button>
           )}
-
-          <button
-            onClick={() => {
-              SoundEffects.playClick();
-              onNavigate('tutorial');
-            }}
-            className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 active:scale-95 transition-all text-white"
-            title="Marriage Rules & Tutorial"
-          >
-            <BookOpen className="w-4 h-4" />
-          </button>
-
-          <button
-            onClick={() => {
-              onToggleSound();
-              SoundEffects.playClick();
-            }}
-            className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 active:scale-95 transition-all text-white"
-            title={soundEnabled ? 'Mute Sounds' : 'Enable Sounds'}
-          >
-            {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4 opacity-75" />}
-          </button>
         </div>
       </div>
     </header>

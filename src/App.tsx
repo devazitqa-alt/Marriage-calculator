@@ -15,7 +15,6 @@ import { TutorialModal } from './components/TutorialModal';
 import { RulesProfilesModal } from './components/RulesProfilesModal';
 import { TransferModal } from './components/TransferModal';
 import { PlayerStatsModal } from './components/PlayerStatsModal';
-import { AndroidInstallModal } from './components/AndroidInstallModal';
 
 export default function App() {
   // Initialize defaults if empty
@@ -45,7 +44,6 @@ export default function App() {
   const [isTransferModalOpen, setIsTransferModalOpen] = useState(false);
   const [isPlayerStatsOpen, setIsPlayerStatsOpen] = useState(false);
   const [isTutorialOpen, setIsTutorialOpen] = useState(false);
-  const [isAndroidInstallOpen, setIsAndroidInstallOpen] = useState(false);
 
   const refreshGlobalData = () => {
     setSavedPlayers(StorageService.getPlayers());
@@ -178,7 +176,6 @@ export default function App() {
         activeGameTitle={activeGame?.title}
         soundEnabled={soundEnabled}
         onToggleSound={handleToggleSound}
-        onOpenAndroidInstall={() => setIsAndroidInstallOpen(true)}
       />
 
       {/* Main View Router */}
@@ -196,7 +193,6 @@ export default function App() {
             onViewRules={() => setIsRulesModalOpen(true)}
             onViewPlayers={() => setIsPlayerStatsOpen(true)}
             onOpenCallbreak={() => setCurrentView('callbreak')}
-            onOpenAndroidInstall={() => setIsAndroidInstallOpen(true)}
           />
         )}
 
@@ -335,11 +331,6 @@ export default function App() {
         players={savedPlayers}
         groups={savedGroups}
         onDataChanged={refreshGlobalData}
-      />
-
-      <AndroidInstallModal
-        isOpen={isAndroidInstallOpen}
-        onClose={() => setIsAndroidInstallOpen(false)}
       />
     </div>
   );
