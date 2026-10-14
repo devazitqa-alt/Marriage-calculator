@@ -8,6 +8,7 @@ const STORAGE_KEYS = {
   ACTIVE_GAME_ID: 'mpc_active_game_id_v1',
   CALLBREAK_GAMES: 'mpc_callbreak_games_v1',
   SOUND_ENABLED: 'mpc_sound_enabled_v1',
+  DARK_MODE: 'mpc_dark_mode_v1',
 };
 
 export const PRESET_RULES: RulesProfile[] = [
@@ -427,5 +428,56 @@ export const StorageService = {
       this.saveGames([sampleGame]);
       this.setActiveGameId(sampleGame.id);
     }
+  },
+
+  isDarkMode(): boolean {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEYS.DARK_MODE);
+      if (stored !== null) {
+        return stored === 'true';
+      }
+      // If no preference stored, check system preference
+      if (typeof window !== 'undefined' && window.matchMedia) {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches;
+      }
+      return false;
+    } catch {
+      return false;
+    }
+  },
+
+  setDarkMode(enabled: boolean): void {
+    try {
+      localStorage.setItem(STORAGE_KEYS.DARK_MODE, enabled ? 'true' : 'false');
+      this.applyTheme(enabled);
+    } catch (e) {
+      console.error('Failed to save dark mode setting:', e);
+    }
+  },
+
+  toggleDarkMode(): boolean {
+    const next = !this.isDarkMode();
+    this.setDarkMode(next);
+    return next;
+  },
+
+  applyTheme(enabled: boolean): void {
+    if (typeof document === 'undefined') return;
+    const root = document.documentElement;
+    if (enabled) {
+      root.classList.add('dark');
+      root.setAttribute('data-theme', 'dark');
+      root.style.colorScheme = 'dark';
+    } else {
+      root.classList.remove('dark');
+      root.setAttribute('data-theme', 'light');
+      root.style.colorScheme = 'light';
+    }
+  },
+
+  initTheme(): boolean {
+    const isDark = this.isDarkMode();
+    this.applyTheme(isDark);
+    return isDark;
   },
 };

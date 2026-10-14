@@ -81,7 +81,7 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
   const renderStatusBadge = (input?: RoundInput, isSittingOut?: boolean) => {
     if (isSittingOut) {
       return (
-        <span className="text-slate-600 text-[11px] font-bold ml-0.5 inline-block" title="Sitting Out">
+        <span className="text-slate-600 dark:text-slate-400 text-[11px] font-bold ml-0.5 inline-block" title="Sitting Out">
           ⏳
         </span>
       );
@@ -97,28 +97,28 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
     }
     if (input.isDublee) {
       return (
-        <span className="text-indigo-600 text-[11px] font-bold ml-0.5 inline-block" title="Dublee / Cards">
+        <span className="text-indigo-600 dark:text-indigo-400 text-[11px] font-bold ml-0.5 inline-block" title="Dublee / Cards">
           🎴
         </span>
       );
     }
     if (input.isFoul) {
       return (
-        <span className="text-red-600 text-[11px] font-bold ml-0.5 inline-block" title="Foul / Flag">
+        <span className="text-red-600 dark:text-rose-400 text-[11px] font-bold ml-0.5 inline-block" title="Foul / Flag">
           🚩
         </span>
       );
     }
     if (input.seenStatus === 'unseen') {
       return (
-        <span className="text-slate-700 text-[11px] font-bold ml-0.5 inline-block" title="Unseen / Blind">
+        <span className="text-slate-700 dark:text-slate-400 text-[11px] font-bold ml-0.5 inline-block" title="Unseen / Blind">
           👁️‍🗨️
         </span>
       );
     }
     if (input.seenStatus === 'seen') {
       return (
-        <span className="text-emerald-700 text-[10px] font-bold ml-0.5 inline-block" title="Seen">
+        <span className="text-emerald-700 dark:text-emerald-400 text-[10px] font-bold ml-0.5 inline-block" title="Seen">
           👁️
         </span>
       );
@@ -171,14 +171,14 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
   };
 
   return (
-    <div className="min-h-[calc(100vh-50px)] bg-[#f4f5f7] pb-24 text-slate-900 select-none">
+    <div className="min-h-[calc(100vh-50px)] bg-[#f4f5f7] dark:bg-[#070b14] pb-24 text-slate-900 dark:text-slate-100 select-none transition-colors">
       <div className="max-w-md mx-auto p-3 space-y-3">
         {/* =========================================================================
             SECTION 1: CURRENT ROUND CARD (Round - X  |  Total Maal: Y)
            ========================================================================= */}
-        <div className="bg-white rounded-xl shadow-xs border border-slate-300 overflow-hidden">
+        <div className="bg-white dark:bg-[#111827] rounded-xl shadow-xs border border-slate-300 dark:border-slate-800 overflow-hidden transition-colors">
           {/* Red Header Bar */}
-          <div className="bg-[#d32f2f] text-white px-3 py-2 flex items-center justify-between font-serif">
+          <div className="bg-[#d32f2f] dark:bg-[#6b1419] text-white px-3 py-2 flex items-center justify-between font-serif">
             <span className="font-bold text-sm tracking-wide">
               Round - {latestRound ? latestRound.roundNumber : 1}
             </span>
@@ -191,14 +191,14 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
           <div className="overflow-x-auto">
             <table className="w-full text-center border-collapse text-xs">
               <thead>
-                <tr className="bg-[#d32f2f] text-white font-bold border-b border-red-700">
-                  <th className="py-2 px-1 text-left pl-2.5 font-bold text-[11px] w-20 border-r border-red-700/60">
+                <tr className="bg-[#d32f2f] dark:bg-[#6b1419] text-white font-bold border-b border-red-700 dark:border-rose-900/60">
+                  <th className="py-2 px-1 text-left pl-2.5 font-bold text-[11px] w-20 border-r border-red-700/60 dark:border-rose-900/50">
                     Names
                   </th>
                   {game.players.map((player) => (
                     <th
                       key={player.id}
-                      className="py-2 px-1 font-bold text-xs border-r border-red-700/60 last:border-r-0 truncate max-w-[65px]"
+                      className="py-2 px-1 font-bold text-xs border-r border-red-700/60 dark:border-rose-900/50 last:border-r-0 truncate max-w-[65px]"
                     >
                       {formatHeaderName(player.displayName)}
                     </th>
@@ -206,10 +206,10 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
                 </tr>
               </thead>
 
-              <tbody className="divide-y divide-slate-200">
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
                 {/* Row 1: Maal with status badges */}
-                <tr className="bg-white hover:bg-slate-50/50">
-                  <td className="py-2.5 px-2 text-left font-medium text-slate-700 border-r border-slate-200">
+                <tr className="bg-white dark:bg-[#111827] hover:bg-slate-50/50 dark:hover:bg-[#1a253f]/50">
+                  <td className="py-2.5 px-2 text-left font-medium text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-800">
                     Maal
                   </td>
                   {game.players.map((player) => {
@@ -221,14 +221,14 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
                     return (
                       <td
                         key={player.id}
-                        className="py-2.5 px-1 border-r border-slate-200 last:border-r-0 font-medium"
+                        className="py-2.5 px-1 border-r border-slate-200 dark:border-slate-800 last:border-r-0 font-medium"
                       >
                         <div className="inline-flex items-center justify-center relative font-mono-numbers text-sm">
                           <span
                             className={
                               isDublee && maalVal > 0
-                                ? 'text-emerald-700 font-bold'
-                                : 'text-slate-800'
+                                ? 'text-emerald-700 dark:text-emerald-400 font-bold'
+                                : 'text-slate-800 dark:text-white'
                             }
                           >
                             {maalVal}
@@ -242,9 +242,9 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
                   })}
                 </tr>
 
-                {/* Row 2: Total Points (White background, Green for positive, Red for negative) */}
-                <tr className="bg-white font-bold">
-                  <td className="py-2.5 px-2 text-left text-slate-800 font-bold border-r border-slate-200 text-[11px] leading-tight">
+                {/* Row 2: Total Points (Green for positive, Red for negative) */}
+                <tr className="bg-white dark:bg-[#111827] font-bold">
+                  <td className="py-2.5 px-2 text-left text-slate-800 dark:text-white font-bold border-r border-slate-200 dark:border-slate-800 text-[11px] leading-tight">
                     <div>Total</div>
                     <div>Points</div>
                   </td>
@@ -256,15 +256,15 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
                     return (
                       <td
                         key={player.id}
-                        className="py-2.5 px-1 border-r border-slate-200 last:border-r-0 font-mono-numbers font-bold text-sm"
+                        className="py-2.5 px-1 border-r border-slate-200 dark:border-slate-800 last:border-r-0 font-mono-numbers font-bold text-sm"
                       >
                         <span
                           className={
                             isPositive
-                              ? 'text-emerald-700 font-extrabold'
+                              ? 'text-emerald-700 dark:text-emerald-400 font-extrabold'
                               : isNegative
-                              ? 'text-red-700 font-extrabold'
-                              : 'text-slate-800'
+                              ? 'text-red-700 dark:text-rose-400 font-extrabold'
+                              : 'text-slate-800 dark:text-slate-300'
                           }
                         >
                           {pts}
@@ -274,9 +274,9 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
                   })}
                 </tr>
 
-                {/* Row 3: Total Amt (Light mint green row) */}
-                <tr className="bg-[#dcfce7] font-bold border-t border-emerald-200">
-                  <td className="py-2 px-2 text-left text-slate-800 font-bold border-r border-emerald-200/80 text-[10px] leading-tight">
+                {/* Row 3: Total Amt (Light mint green row in light, deep emerald in dark) */}
+                <tr className="bg-[#dcfce7] dark:bg-[#062c1b] font-bold border-t border-emerald-200 dark:border-emerald-800/80">
+                  <td className="py-2 px-2 text-left text-slate-800 dark:text-emerald-200 font-bold border-r border-emerald-200/80 dark:border-emerald-800/60 text-[10px] leading-tight">
                     <div>{game.currency} {game.pointRate}/pt</div>
                     <div>Total Amt</div>
                   </td>
@@ -288,15 +288,15 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
                     return (
                       <td
                         key={player.id}
-                        className="py-2 px-1 border-r border-emerald-200/80 last:border-r-0 font-mono-numbers font-bold text-sm"
+                        className="py-2 px-1 border-r border-emerald-200/80 dark:border-emerald-800/60 last:border-r-0 font-mono-numbers font-bold text-sm"
                       >
                         <span
                           className={
                             isPositive
-                              ? 'text-emerald-700 font-extrabold'
+                              ? 'text-emerald-700 dark:text-emerald-300 font-extrabold'
                               : isNegative
-                              ? 'text-red-700 font-extrabold'
-                              : 'text-slate-800'
+                              ? 'text-red-700 dark:text-rose-300 font-extrabold'
+                              : 'text-slate-800 dark:text-emerald-200'
                           }
                         >
                           {amt}
@@ -321,7 +321,7 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
               SoundEffects.playClick();
               if (onOpenTransfer) onOpenTransfer();
             }}
-            className="py-2 px-2 bg-white hover:bg-red-50 active:scale-95 text-[#d32f2f] border border-[#d32f2f] rounded-lg font-bold text-[11px] shadow-2xs flex items-center justify-center gap-1 transition-all"
+            className="py-2 px-2 bg-white hover:bg-red-50 dark:bg-[#111827] dark:hover:bg-[#1c2438] active:scale-95 text-[#d32f2f] dark:text-rose-300 border border-[#d32f2f] dark:border-rose-900/60 rounded-lg font-bold text-[11px] shadow-2xs flex items-center justify-center gap-1 transition-all"
           >
             <ArrowLeftRight className="w-3.5 h-3.5" />
             <span className="truncate">Transfer Host</span>
@@ -334,7 +334,7 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
               SoundEffects.playClick();
               setShowAddPlayerModal(true);
             }}
-            className="py-2 px-2 bg-white hover:bg-red-50 active:scale-95 text-[#d32f2f] border border-[#d32f2f] rounded-lg font-bold text-[11px] shadow-2xs flex items-center justify-center gap-1 transition-all"
+            className="py-2 px-2 bg-white hover:bg-red-50 dark:bg-[#111827] dark:hover:bg-[#1c2438] active:scale-95 text-[#d32f2f] dark:text-rose-300 border border-[#d32f2f] dark:border-rose-900/60 rounded-lg font-bold text-[11px] shadow-2xs flex items-center justify-center gap-1 transition-all"
           >
             <UserPlus className="w-3.5 h-3.5" />
             <span className="truncate">Add Player</span>
@@ -347,7 +347,7 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
               SoundEffects.playClick();
               onShareGame();
             }}
-            className="py-2 px-2 bg-white hover:bg-red-50 active:scale-95 text-[#d32f2f] border border-[#d32f2f] rounded-lg font-bold text-[11px] shadow-2xs flex items-center justify-center gap-1 transition-all"
+            className="py-2 px-2 bg-white hover:bg-red-50 dark:bg-[#111827] dark:hover:bg-[#1c2438] active:scale-95 text-[#d32f2f] dark:text-rose-300 border border-[#d32f2f] dark:border-rose-900/60 rounded-lg font-bold text-[11px] shadow-2xs flex items-center justify-center gap-1 transition-all"
           >
             <Share2 className="w-3.5 h-3.5" />
             <span className="truncate">Share Score</span>
@@ -357,9 +357,9 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
         {/* =========================================================================
             SECTION 3: ALL GAMES CARD (Complete Score History Table)
            ========================================================================= */}
-        <div className="bg-white rounded-xl shadow-xs border border-slate-300 overflow-hidden">
+        <div className="bg-white dark:bg-[#111827] rounded-xl shadow-xs border border-slate-300 dark:border-slate-800 overflow-hidden transition-colors">
           {/* Red Header Bar */}
-          <div className="bg-[#d32f2f] text-white px-3 py-2 flex items-center justify-between font-serif">
+          <div className="bg-[#d32f2f] dark:bg-[#6b1419] text-white px-3 py-2 flex items-center justify-between font-serif">
             <span className="font-bold text-sm tracking-wide">All Games</span>
             <span className="font-bold text-xs flex items-center gap-1 opacity-95">
               <span>🔪</span>
@@ -371,14 +371,14 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
           <div className="overflow-x-auto">
             <table className="w-full text-center border-collapse text-xs">
               <thead>
-                <tr className="bg-[#d32f2f] text-white font-bold border-b border-red-700">
-                  <th className="py-2 px-1 text-left pl-2.5 font-bold text-[11px] w-16 border-r border-red-700/60">
+                <tr className="bg-[#d32f2f] dark:bg-[#6b1419] text-white font-bold border-b border-red-700 dark:border-rose-900/60">
+                  <th className="py-2 px-1 text-left pl-2.5 font-bold text-[11px] w-16 border-r border-red-700/60 dark:border-rose-900/50">
                     Round
                   </th>
                   {game.players.map((player) => (
                     <th
                       key={player.id}
-                      className="py-2 px-1 font-bold text-xs border-r border-red-700/60 last:border-r-0 truncate max-w-[65px]"
+                      className="py-2 px-1 font-bold text-xs border-r border-red-700/60 dark:border-rose-900/50 last:border-r-0 truncate max-w-[65px]"
                     >
                       {formatHeaderName(player.displayName)}
                     </th>
@@ -386,7 +386,7 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
                 </tr>
               </thead>
 
-              <tbody className="divide-y divide-slate-200">
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
                 {/* Past Rounds */}
                 {game.rounds.map((round) => (
                   <tr
@@ -395,11 +395,11 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
                       SoundEffects.playClick();
                       onViewAuditRound(round);
                     }}
-                    className="bg-white hover:bg-red-50/40 cursor-pointer transition-colors"
+                    className="bg-white dark:bg-[#111827] hover:bg-red-50/40 dark:hover:bg-[#1a253f]/60 cursor-pointer transition-colors"
                   >
                     {/* Round column with edit pencil icon */}
-                    <td className="py-2.5 px-2 text-left font-bold text-slate-800 border-r border-slate-200 flex items-center gap-1">
-                      <Edit3 className="w-3 h-3 text-slate-700 hover:text-red-600 flex-shrink-0" />
+                    <td className="py-2.5 px-2 text-left font-bold text-slate-800 dark:text-slate-200 border-r border-slate-200 dark:border-slate-800 flex items-center gap-1">
+                      <Edit3 className="w-3 h-3 text-slate-700 dark:text-slate-400 hover:text-red-600 dark:hover:text-rose-400 flex-shrink-0" />
                       <span className="font-mono-numbers">{round.roundNumber}</span>
                     </td>
 
@@ -413,16 +413,16 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
                       return (
                         <td
                           key={player.id}
-                          className="py-2.5 px-1 border-r border-slate-200 last:border-r-0 font-medium"
+                          className="py-2.5 px-1 border-r border-slate-200 dark:border-slate-800 last:border-r-0 font-medium"
                         >
                           <div className="inline-flex items-center justify-center relative font-mono-numbers text-sm">
                             <span
                               className={
                                 isPositive
-                                  ? 'text-emerald-700 font-bold'
+                                  ? 'text-emerald-700 dark:text-emerald-400 font-bold'
                                   : isNegative
-                                  ? 'text-red-700 font-bold'
-                                  : 'text-slate-800'
+                                  ? 'text-red-700 dark:text-rose-400 font-bold'
+                                  : 'text-slate-800 dark:text-white'
                               }
                             >
                               {pts}
@@ -441,7 +441,7 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
                   <tr>
                     <td
                       colSpan={game.players.length + 1}
-                      className="py-8 text-center text-xs text-slate-400 font-medium italic"
+                      className="py-8 text-center text-xs text-slate-400 dark:text-slate-500 font-medium italic"
                     >
                       No rounds recorded yet. Tap "Next Game &gt;" to record Round 1.
                     </td>
@@ -449,8 +449,8 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
                 )}
 
                 {/* Summary Row 1: Total Points */}
-                <tr className="bg-white font-bold border-t-2 border-slate-300">
-                  <td className="py-2.5 px-2 text-left text-slate-800 font-bold border-r border-slate-200 text-[11px] leading-tight">
+                <tr className="bg-white dark:bg-[#0c1220] font-bold border-t-2 border-slate-300 dark:border-slate-700">
+                  <td className="py-2.5 px-2 text-left text-slate-800 dark:text-white font-bold border-r border-slate-200 dark:border-slate-800 text-[11px] leading-tight">
                     <div>Total</div>
                     <div>Points</div>
                   </td>
@@ -463,15 +463,15 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
                     return (
                       <td
                         key={player.id}
-                        className="py-2.5 px-1 border-r border-slate-200 last:border-r-0 font-mono-numbers font-bold text-sm"
+                        className="py-2.5 px-1 border-r border-slate-200 dark:border-slate-800 last:border-r-0 font-mono-numbers font-bold text-sm"
                       >
                         <span
                           className={
                             isPositive
-                              ? 'text-emerald-700 font-extrabold text-base'
+                              ? 'text-emerald-700 dark:text-emerald-400 font-extrabold text-base'
                               : isNegative
-                              ? 'text-red-700 font-extrabold text-base'
-                              : 'text-slate-800'
+                              ? 'text-red-700 dark:text-rose-400 font-extrabold text-base'
+                              : 'text-slate-800 dark:text-white'
                           }
                         >
                           {totalPts}
@@ -481,9 +481,9 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
                   })}
                 </tr>
 
-                {/* Summary Row 2: Total Amt (Mint green background) */}
-                <tr className="bg-[#dcfce7] font-bold border-t border-emerald-200">
-                  <td className="py-2.5 px-2 text-left text-slate-800 font-bold border-r border-emerald-200/80 text-[10px] leading-tight">
+                {/* Summary Row 2: Total Amt (Mint green background in light, emerald deep in dark) */}
+                <tr className="bg-[#dcfce7] dark:bg-[#062c1b] font-bold border-t border-emerald-200 dark:border-emerald-800/80">
+                  <td className="py-2.5 px-2 text-left text-slate-800 dark:text-emerald-200 font-bold border-r border-emerald-200/80 dark:border-emerald-800/60 text-[10px] leading-tight">
                     <div>{game.currency} {game.pointRate}/pt</div>
                     <div>Total Amt</div>
                   </td>
@@ -496,15 +496,15 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
                     return (
                       <td
                         key={player.id}
-                        className="py-2.5 px-1 border-r border-emerald-200/80 last:border-r-0 font-mono-numbers font-bold text-sm"
+                        className="py-2.5 px-1 border-r border-emerald-200/80 dark:border-emerald-800/60 last:border-r-0 font-mono-numbers font-bold text-sm"
                       >
                         <span
                           className={
                             isPositive
-                              ? 'text-emerald-700 font-extrabold text-base'
+                              ? 'text-emerald-700 dark:text-emerald-300 font-extrabold text-base'
                               : isNegative
-                              ? 'text-red-700 font-extrabold text-base'
-                              : 'text-slate-800'
+                              ? 'text-red-700 dark:text-rose-300 font-extrabold text-base'
+                              : 'text-slate-800 dark:text-emerald-200'
                           }
                         >
                           {totalAmt}
@@ -522,7 +522,7 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
       {/* =========================================================================
           SECTION 4: FIXED BOTTOM NAVIGATION (< Edit Previous  |  Next Game >)
          ========================================================================= */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xs border-t border-slate-200 p-2.5 shadow-lg">
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-[#0a0e1a]/95 backdrop-blur-xs border-t border-slate-200 dark:border-slate-800 p-2.5 shadow-lg transition-colors">
         <div className="max-w-md mx-auto grid grid-cols-2 gap-3">
           {/* Edit Previous */}
           <button
@@ -536,8 +536,8 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
             }}
             className={`py-3 px-3 rounded-lg font-bold text-sm flex items-center justify-center gap-1.5 transition-all ${
               latestRound
-                ? 'bg-[#d32f2f] hover:bg-red-700 active:scale-98 text-white shadow-sm'
-                : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                ? 'bg-[#d32f2f] hover:bg-red-700 dark:bg-[#88131e] dark:hover:bg-[#a11824] active:scale-98 text-white shadow-sm'
+                : 'bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-600 cursor-not-allowed'
             }`}
           >
             <ChevronLeft className="w-4 h-4" />
@@ -551,7 +551,7 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
               SoundEffects.playClick();
               onAddRound();
             }}
-            className="py-3 px-3 bg-[#d32f2f] hover:bg-red-700 active:scale-98 text-white rounded-lg font-bold text-sm shadow-sm flex items-center justify-center gap-1.5 transition-all"
+            className="py-3 px-3 bg-[#d32f2f] hover:bg-red-700 dark:bg-[#88131e] dark:hover:bg-[#a11824] active:scale-98 text-white rounded-lg font-bold text-sm shadow-sm flex items-center justify-center gap-1.5 transition-all"
           >
             <span>Next Game</span>
             <ChevronRight className="w-4 h-4" />
@@ -564,14 +564,14 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
          ========================================================================= */}
       {showAddPlayerModal && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-sm w-full p-4 space-y-3.5 shadow-xl border border-slate-200 text-xs">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-              <h3 className="font-extrabold text-sm text-slate-900 flex items-center gap-1.5">
-                <UserPlus className="w-4 h-4 text-[#d32f2f]" /> Table Players ({game.players.length})
+          <div className="bg-white dark:bg-[#0f172a] rounded-2xl max-w-sm w-full p-4 space-y-3.5 shadow-xl border border-slate-200 dark:border-slate-800 text-xs text-slate-900 dark:text-slate-100 animate-in fade-in zoom-in-95 duration-150">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
+              <h3 className="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-1.5">
+                <UserPlus className="w-4 h-4 text-[#d32f2f] dark:text-rose-400" /> Table Players ({game.players.length})
               </h3>
               <button
                 onClick={() => setShowAddPlayerModal(false)}
-                className="p-1 rounded text-slate-400 hover:text-slate-600"
+                className="p-1 rounded text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -585,12 +585,12 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
                 value={newPlayerName}
                 onChange={(e) => setNewPlayerName(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleAddNewPlayer()}
-                className="flex-1 px-3 py-1.5 border border-slate-300 rounded-lg font-medium text-xs focus:ring-1 focus:ring-red-500"
+                className="flex-1 px-3 py-1.5 bg-white dark:bg-[#1e293b] text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700 rounded-lg font-medium text-xs focus:ring-1 focus:ring-red-500"
               />
               <button
                 type="button"
                 onClick={handleAddNewPlayer}
-                className="px-3 py-1.5 bg-[#d32f2f] text-white font-bold rounded-lg text-xs"
+                className="px-3 py-1.5 bg-[#d32f2f] dark:bg-rose-700 text-white font-bold rounded-lg text-xs"
               >
                 Add
               </button>
@@ -601,16 +601,16 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
               {game.players.map((p) => (
                 <div
                   key={p.id}
-                  className="p-2 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between"
+                  className="p-2 rounded-lg bg-slate-50 dark:bg-[#131b2e] border border-slate-200 dark:border-slate-800 flex items-center justify-between"
                 >
-                  <span className="font-bold text-slate-800">{p.displayName}</span>
+                  <span className="font-bold text-slate-800 dark:text-white">{p.displayName}</span>
                   <button
                     type="button"
                     onClick={() => handleToggleSittingOut(p.id)}
                     className={`px-2 py-0.5 rounded text-[10px] font-bold transition-colors ${
                       p.isSittingOut
-                        ? 'bg-amber-100 text-amber-900 border border-amber-300'
-                        : 'bg-emerald-100 text-emerald-800'
+                        ? 'bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-700'
+                        : 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300'
                     }`}
                   >
                     {p.isSittingOut ? '⏳ Sitting Out' : 'Active'}
@@ -623,7 +623,7 @@ export const LiveScoreboard: React.FC<LiveScoreboardProps> = ({
               <button
                 type="button"
                 onClick={() => setShowAddPlayerModal(false)}
-                className="px-4 py-1.5 bg-slate-800 text-white rounded-lg font-bold"
+                className="px-4 py-1.5 bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-900 rounded-lg font-bold"
               >
                 Done
               </button>
